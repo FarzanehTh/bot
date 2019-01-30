@@ -6,15 +6,9 @@ import calsses
 
 
 
-# we need to save these in a file for every run to use lst_of_people = ["Farzaneh"], lst_of_registered_users = []
-# and update file
-
 
 bank_info = "<b>Sman Bank</b> {}: <i> \n Bank account Number : </i> \n" \
             "<i> Card Number: </i>".format(emoji.emojize(":dolphin:"))
-# bank_info = "bank"
-
-    # w = 'https://www.google.com/html'
 
 
 def set_last_id():
@@ -35,11 +29,9 @@ last_ID = set_last_id()
 lst_of_people = ["Farzaneh"]
 # dict of user_id : name
 lst_of_registered_users = []
-url1 = "https://api.telegram.org/bot664436075:AAHVj-PcUpu1nQb37fh-ii6fKYITr1v7EFI/METHOD_NAME"
-tel_url = "https://api.telegram.org/bot664436075:AAHVj-PcUpu1nQb37fh-ii6fKYITr1v7EFI/getUpdates?offset={}".format(
+tel_url = "https://api.telegram.org/b.../getUpdates?offset={}".format(
     last_ID.ID_of_last_read_updte + 1)
 
-# my_msg = "https://api.telegram.org/bot664436075:AAHVj-PcUpu1nQb37fh-ii6fKYITr1v7EFI/sendMessage"
 
 
 
@@ -50,18 +42,8 @@ tel_url = "https://api.telegram.org/bot664436075:AAHVj-PcUpu1nQb37fh-ii6fKYITr1v
 # helpers
 
 
-
 def serialize(obj):
     """JSON serializer for objects not serializable by default json code"""
-
-    # if isinstance(obj, date):
-    #     serial = obj.isoformat()
-    #     return serial
-    #
-    # if isinstance(obj, time):
-    #     serial = obj.isoformat()
-    #     return serial
-
     return obj.to_json()
 
 
@@ -93,7 +75,7 @@ def send_msg(url):
 
 
 def make_url(id_of_chat, text, mark_up=None, parse=None):
-    my_msg = "https://api.telegram.org/bot664436075:AAHVj-PcUpu1nQb37fh-ii6fKYITr1v7EFI/sendMessage"
+    my_msg = "https://api.telegram.org/..../sendMessage"
 
     if mark_up is not None and parse is not None:
         dic_data1 = {"chat_id": id_of_chat, "text": text, "parse_mode": parse,
@@ -126,43 +108,26 @@ def send_link(id_of_chat):
     arr2 = []
     arr2.append(arr1)
     arr3 = calsses.InlineKeyboardMarkup(arr2)
-    # print(arr2)
-
     seri = json.dumps(arr3, default=serialize)
-
-    print(seri)
     full_url = make_url(id_of_chat=id_of_chat, text="Hi There, Please click on the Link Below To Join !!",
                         mark_up=seri)
     send_msg(full_url)
 
 
 def send_info(id_of_chat):
-    # web = "<a href={0}>bank </a>".format("https://www.w3schools.com/html")
     full_url = make_url(id_of_chat, bank_info, parse="HTML")
     send_msg(full_url)
 
 
-def send_user_status(id_of_chat):
-    pass
 
 
-#
-# def update_chat(id, msg):
-#     # msg = get_update(tel_url)["result"]
-#     for i in range(len(msg)):
-#         this_msg = msg[i]["message"]
-#         if this_msg["chat"]["id"] == id:
-#             if this_msg["text"].startswith("/name"):
-#                 return this_msg
-#     else:
-#         return None
 
 def go_over():
     obj_json = get_update(tel_url)
 
     queue1 = calsses.Queue()
 
-    # quque the users
+    # queue the users
     lst_counts = []
     chat_members = obj_json["result"]
     for i in range(len(chat_members)):
@@ -177,24 +142,8 @@ def go_over():
     return queue1
 
 
-#################
-#
-# def switch(arq):
-#
-#     switcher = {
-#         "/link": case1,
-#         "/registration info": case2,
-#         "/check status": case3
-#
-#     }
-#
-#
-
-########*****
-
 
 def check_name(msg, id_of_c, id_of_u):
-    # name = update_msg["text"]
     name = msg[6:]
     if lst_of_registered_users.__contains__(id_of_u) is False:
 
@@ -208,10 +157,16 @@ def check_name(msg, id_of_c, id_of_u):
         send_msg(make_url(id_of_c, "You are already in"))
 
 
+def send_user_status(chatid):
+    pass
+
+
+
+
+
 if __name__ == "__main__":
 
     # get the updates
-    # last_ID = set_last_id()
     queue = go_over()
     while last_ID.ID_of_last_read_updte < last_ID.update_ID:
         print(last_ID.ID_of_last_read_updte)
@@ -239,10 +194,7 @@ if __name__ == "__main__":
             elif txt == "/status":
                 send_user_status(chat_i)
             elif txt.startswith("/name"):
-                # update_msg = update_chat(chat_i, txt)
                 check_name(txt, chat_i, u_id)
-            # elif txt == "pressed":
-            #     lst_of_registered_users.append(u_id)
             elif txt == "/start":
 
                 #1.check if its user_id is in the lst of regisdterd ones
@@ -267,16 +219,3 @@ if __name__ == "__main__":
     open_write = open(file_address, "w")
     open_write.write(str(last_ID.ID_of_last_read_updte))
     open_write.close()
-
-    # web = "<b>bold</b>, <strong>bold</strong><i>italic</i>, <em>italic</em><a href={0} title={1} >inline URL</a><code>inline fixed-width code</code><pre>pre-formatted fixed-width code block</pre>".format("http://www.google.com", "see")
-    # w = 'https://www.google.com/html'
-
-    # some_web = "[some]({})".format(w)
-
-    # some_web = "<a href='https://www.google.com'> something to </a>"
-# some_web = "https://t.me/joinchat/AAAAAEsJPhgcKL-14m2Q9Q"
-# web = "<a href={0}>Visit our HTML Tutorial</a>".format("https://www.w3schools.com/html")
-
-
-
-# "parse_mode": "HTML"

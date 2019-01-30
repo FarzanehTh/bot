@@ -46,11 +46,3 @@ class InlineKeyboardMarkup():
     def to_json(self):
         return self.__dict__
 
-
-#
-# class ID():
-#     def __init__(self, update_ID):
-#
-#         self.update_ID = update_ID
-#
-# last_ID = ID(0)
